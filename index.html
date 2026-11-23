@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Meta Quest 3 ve masaüstü için el takipli, 1:70 ölçekli WebXR mimari gezinti">
+  <title>WebXR Quest 3 · El Takipli 1:70 Gezinti</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <!-- Sabit sürümlü CDN bağımlılıkları. Yerel modüller göreli yolla yüklenir → GitHub Pages alt dizininde çalışır. -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
+        "@mediapipe/tasks-vision": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="app" aria-label="3B sahne"></div>
+
+  <header id="controls" class="panel">
+    <div class="brand">
+      <h1>Hand Tracking VR Locomotion</h1>
+      <p>Quest 3 · WebXR · 1:70 mimari ölçek</p>
+    </div>
+    <div class="buttons">
+      <button id="btn-vr" class="primary" disabled>Enter VR</button>
+      <button id="btn-cam-start">Start Camera</button>
+      <button id="btn-cam-stop" disabled>Stop Camera</button>
+      <button id="btn-reset">Reset Position</button>
+    </div>
+    <label class="scale-row">
+      <span>Model ölçeği</span>
+      <select id="scale-select">
+        <option value="50">1:50</option>
+        <option value="70">1:70</option>
+        <option value="100">1:100</option>
+        <option value="200">1:200</option>
+      </select>
+    </label>
+    <table class="legend" aria-label="Jestler">
+      <tr><td>Başparmak + İşaret</td><td>İleri yürü</td></tr>
+      <tr><td>Başparmak + Serçe</td><td>Sağa dön</td></tr>
+      <tr><td>Başparmak + Yüzük</td><td>Sola dön</td></tr>
+      <tr><td>Pinch yok</td><td>Dur</td></tr>
+    </table>
+  </header>
+
+  <aside id="debug" class="panel" aria-live="off">
+    <h2>Debug</h2>
+    <dl>
+      <dt>XR oturumu</dt><dd id="dbg-xr">—</dd>
+      <dt>El takibi</dt><dd id="dbg-tracking">—</dd>
+      <dt>Aktif el</dt><dd id="dbg-hand">—</dd>
+      <dt>Aktif pinch</dt><dd id="dbg-pinch">—</dd>
+      <dt>İleri hız</dt><dd id="dbg-speed">—</dd>
+      <dt>Rotasyon</dt><dd id="dbg-turn">—</dd>
+      <dt>Ölçek</dt><dd id="dbg-scale">—</dd>
+      <dt>Göz yüksekliği</dt><dd id="dbg-eye">—</dd>
+      <dt>Pinch mesafesi</dt><dd id="dbg-dist" class="mono">—</dd>
+      <dt>FPS</dt><dd id="dbg-fps">—</dd>
+    </dl>
+  </aside>
+
+  <section id="camera-view" class="panel" hidden>
+    <div class="mirror">
+      <video id="cam-video" playsinline muted></video>
+      <canvas id="cam-overlay"></canvas>
+    </div>
+    <span id="cam-status">Kamera kapalı</span>
+  </section>
+
+  <div id="consent" class="modal" role="dialog" aria-modal="true" aria-labelledby="consent-title" hidden>
+    <div class="modal-card">
+      <h2 id="consent-title">Kamera izni</h2>
+      <p>El takibi için webcam görüntüsü kullanılacak. Görüntü <strong>yalnızca bu tarayıcıda</strong>
+        MediaPipe ile işlenir, hiçbir sunucuya gönderilmez ve kaydedilmez. El modeli ilk seferde CDN'den indirilir.</p>
+      <p>Devam ederseniz tarayıcı ayrıca kendi kamera izni penceresini gösterecek.</p>
+      <div class="buttons">
+        <button id="consent-ok" class="primary">İzin ver ve başlat</button>
+        <button id="consent-cancel">Vazgeç</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="hint">Masaüstü test: <kbd>W</kbd> ileri · <kbd>A</kbd>/<kbd>D</kbd> dön · <kbd>R</kbd> sıfırla · sürükleyerek bak</footer>
+
+  <noscript><p class="noscript">Bu uygulama JavaScript gerektirir.</p></noscript>
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

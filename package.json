@@ -1,0 +1,9 @@
+{
+  "name": "webxr-quest3-hand-locomotion",
+  "private": true,
+  "type": "module",
+  "description": "Yalnızca testler için. Uygulama build gerektirmez; GitHub Pages statik dosyaları doğrudan sunar.",
+  "scripts": {
+    "test": "node --test tests/gestures.test.js tests/scale.test.js"
+  }
+}
